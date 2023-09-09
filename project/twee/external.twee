@@ -1,0 +1,8 @@
+:: External
+External World
+<span id="delayed-link" style="display:none;">[[Final]]</span>
+<%
+  _.delay(function() {
+    $('#delayed-link').fadeIn(1000);
+  }, 2000);
+%>

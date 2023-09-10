@@ -29,18 +29,24 @@
   const ps = (a) => JSON.parse(JSON.stringify(a));
   window.enableDebug = function(){
     const gui = new GUI();
-    const story = gui.addFolder('Story');
+    const title = gui.addFolder('Title');
     // addObjAsFolderToGUI(story, window.story);
     // const passage = gui.addFolder('Passage');
     // addObjAsFolderToGUI(passage, window.passage);
     const base = gui.addFolder('Story State');
     const topLevel = {
+      passageName: "",
       reload: () => {
         window.story.show(window.passage.id, true);
       }
     };
+    const passageName = title.add(topLevel, 'passageName');
+    $(document).on('sm.passage.showing', function(event, {passage}) {
+      passageName.setValue(passage.name);
+    });
+    // Add a listener that will update the debug view when the story passage changes
+
     base.add(topLevel, 'reload'); 
-    console.log(JSON.stringify(window.story.state));
     addObjAsFolderToGUI(base, window.story.state, true);
   };
 })();

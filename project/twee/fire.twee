@@ -1,32 +1,34 @@
 :: Fire
-The fire is warm and inviting, <%
+<%
   const {character, campground} = window.story.state;
+%>
+The fire is warm and inviting.
+<%
   if(!campground.fireStoked){
+    const choice = character.hasFuel ? "[[Add fuel to the fire|FireFuelAdded]]" : "[[You can't stay here|Campground]]";
     %>
-    but there is not much fuel left. You'll need more to survive.
+      The wood is running low. <br/>
+      You'll need more to survive. <br/><br/>
+      <%= choice %>
     <%
-      if(character.hasFuel){
-    %>
-      [[Add fuel to the fire|FireFuelAdded]]
-    <%
-      } else {
-    %>
-      [[You can't stay here|PostStart]]
-    <%
-      }
   } else {
-    %>there should be enough fuel to make it until morning.
-    
-    [[Return to other matters|PostStart]]
+    %>
+      <%=window.story.render("FirePathRevealed")>
+      There should be enough fuel to make it until morning.
+      [[Return to other matters|Campground]]
     <%
   }
 %>
 
 :: FireFuelAdded
-You add the kindling the fire, it should be enough to last the night
+You add some wood to the fire, and place the remaining pieces nearby, it should be enough to last the night.
 <%
   const {character, campground} = window.story.state;
   character.hasFuel = false;
   campground.fireStoked = true;
 %>
 [[Good|Fire]]
+
+:: FirePathRevealed
+The fire illuminates a path to the north, tracks in the snow lead that way.
+

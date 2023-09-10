@@ -5,13 +5,13 @@
 %>
   Your wards are broken.  You can feel the eyes watching you from the dark.  
 
-[[You can't stay here|PostStart]]
+[[You can't stay here|Campground]]
 <%
   } else {
 %>
 Your wards are repaired. The eyes are still there, but they're held at bay.  
 
-[[Return to other matters|PostStart]]  
+[[Return to other matters|Campground]]  
 <%
   }
 %>

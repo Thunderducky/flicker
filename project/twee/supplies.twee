@@ -5,8 +5,8 @@
   if(!supplies){
 %>
   Your supplies are gone. 
-  [[You can't stay here|PostStart]]
+  [[You can't stay here|Campground]]
 <%} else {%>
   Your supplies are restored.  
-  [[Return to other matters|PostStart]]
+  [[Return to other matters|Campground]]
 <%}%>

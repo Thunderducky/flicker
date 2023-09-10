@@ -1,0 +1,9 @@
+:: Campground
+Your campground is still in disarray, but you have a few moments to [[think|Think]]. 
+
+[[Fire]]  
+[[Tent]]  
+[[Wards]]  
+[[Supplies]]
+
+<%= s.character.hasLantern ? "You have a lantern.<br/> It'll allow you to go further into the [[glade|Glade]]" : "" %>

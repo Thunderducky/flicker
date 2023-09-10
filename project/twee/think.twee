@@ -2,25 +2,14 @@
 You close your eyes and think.
 <%
 const {tentRepaired, fireStoked, wardsRepaired} = s.campground;
-if(!tentRepaired){
-  %>* You need to repair your tent.<%
-} else {
-  %>* You have already repaired your tent<%
-}
-%>
-<%
-if(!fireStoked){
-  %>* You need to find more fuel for the fire<%
-} else {
-  %>* You've already refueled the fire<%
-}
-%>
-<%
-if(!wardsRepaired){
-  %>* You need to repair your wards<%
-} else {
-  %>* You've already repaired your wards<%
-}
-%>
 
-[[Open your eyes|PostStart]]
+const tentStatus = !tentRepaired ? "You need to repair your tent." : "You have already repaired your tent";
+const fireStatus = !fireStoked ? "You need to find more fuel for the fire." : "You have already refueled the fire";
+const wardsStatus = !wardsRepaired ? "You need to repair your wards." : "You have already repaired your wards";
+
+%>
+* <%=tentStatus%>
+* <%=fireStatus%>
+* <%=wardsStatus%>
+
+[[Open your eyes|Campground]]

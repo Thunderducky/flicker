@@ -7,7 +7,7 @@
   if(tentRepaired){
 %>
 Your tent is repaired.  It's not much, but it's better than nothing.
-[[Return to other matters|PostStart]]
+[[Return to other matters|Campground]]
 <%
   }
   else {
@@ -22,14 +22,15 @@ Your tent is ripped and torn.  It's not going to be much use to you anymore.
     } else {
     %>
 
-    [[You can't stay here|PostStart]]
+    [[You can't stay here|Campground]]
     <%}
 } %>
 
 :: TakeLantern
 You take the lantern.  It's not much, but it's better than nothing.
 <%
+  // Perform taking lantern results
   s.tent.hasLantern = false;
   s.character.hasLantern = true;
 %>
-[[Return to other matters|PostStart]]
+[[Return to other matters|Campground]]

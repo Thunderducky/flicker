@@ -1,22 +1,24 @@
 :: Glade
-You venture into the glade, lantern in hand. The light from the lantern is weak, but it's enough to keep the darkness at bay.
 <%
   const {glade, character} = window.story.state;
-  
-  if(glade.hasFuel){
 %>
-  There's is an abundance of wood here, it would be good supply of fuel for the fire.
-  [[Gather wood|GladeGatherWood]]
-<%} else { %>
-<%}%>
+You venture into the glade, lantern in hand. The light from the lantern is weak, but it's enough to keep the darkness at bay.
 
-[[Return to the campground|PostStart]].
+<%= glade.hasFuel ? window.story.render("GladeHasWood") : ""%>
+
+[[Return to the campground|Campground]].
+
+:: GladeHasWood
+There's is an abundance of wood here, it would be good supply of fuel for the fire.
+[[Gather wood|GladeGatherWood]]
+
 
 :: GladeGatherWood
 You are able to gather sticks and branches that have fallen from the trees. You can also gather some kindling from the ground.
+
 <%
   const {glade, character} = window.story.state;
   glade.hasFuel = false;
   character.hasFuel = true;
 %>
-[[Return to the campground|PostStart]]
+[[Return to the campground|Campground]]

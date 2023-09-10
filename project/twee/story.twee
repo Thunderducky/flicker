@@ -2,48 +2,38 @@
 Flicker
 
 :: Start[nofade]
-<span class="sequence" order="1">You stand in front of a [[fire|Fire]].</span>
-<span class="sequence" order="2">It's light flickers and dances across the edges of the glade.</span>
-<span class="sequence" order="3">You can hear the crackling of the wood as it burns.</span><span class="sequence" order="4">You can feel the warmth of the fire on your face. </span> 
+<%
+  const FAST_INTRO = false;
+%>
+<span.sequence order="1">You stand in front of a [[fire|Fire]].</span>
+<span.sequence order="2">It's light flickers and dances across the edges of the glade.</span>
+<span.sequence order="3">You can hear the crackling of the wood as it burns.</span>
+<span.sequence order="4">You can feel the warmth of the fire on your face. </span> 
+<span.sequence order="5">You can sense the eyes watching you from the dark.</span>
 
-<span class="sequence" order="5">You can sense the eyes watching you from the dark.</span>
+<span.sequence order="6">Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.</span>
 
-<span class="sequence" order="6">Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.</span>
-
-<span class="sequence" order="7">You can't stay here, [[not like this|Think]].</span>
+<span.sequence order="7">You can't stay here, [[not like this|Think]].</span>
 
 <%
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-$(async () => {
-  $(".sequence").css("opacity", 0);
-  // Disable links
-  $("a").changeElementType("nota");
-  $("tw-passage").show();
-  for(let i = 1; i <= 7; i++){
-    $(`.sequence[order='${i}']`).animate({opacity: 1}, 1000)
-    await wait(2500);
-  }
-  // Enable all links
-  $("nota").changeElementType("a");
-});
+if(!FAST_INTRO){
+  $(async () => {
+    $(".sequence").css("opacity", 0);
+    // Disable links
+    $(".passage a").changeElementType("nota");
+    $("tw-passage").show();
+    for(let i = 1; i <= 7; i++){
+      $(`.sequence[order='${i}']`).animate({opacity: 1}, 1000)
+      await wait(2500);
+    }
+    // Enable all links
+    $(".passage nota").changeElementType("a");
+  });
+} else {
+  $("tw-passage").fadeIn(1000);
+}
 %>
-
-:: PostStart
-Your campground is still in disarray, but you have a few moments to [[think|Think]]. 
-
-<%
-  if(s.character.hasLantern){
-%>
-    You have a lantern. It'll allow you to go further into the [[glade|Glade]]
-<%
-  }
-%>
-
-[[Fire]]  
-[[Tent]]  
-[[Wards]]  
-[[Supplies]]
-
 
 
 

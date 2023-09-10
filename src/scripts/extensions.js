@@ -11,3 +11,10 @@
       });
   };
 })(jQuery);
+
+window.disableLinks = function(){
+  $("a").changeElementType("nota");
+}
+window.enableLinks = function(){
+  $("nota").changeElementType("a");
+}

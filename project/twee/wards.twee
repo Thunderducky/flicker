@@ -1,0 +1,17 @@
+:: Wards
+<%
+  const {wardsRepaired} = s.campground;
+  if(!wardsRepaired){
+%>
+  Your wards are broken.  You can feel the eyes watching you from the dark.  
+
+[[You can't stay here|PostStart]]
+<%
+  } else {
+%>
+Your wards are repaired. The eyes are still there, but they're held at bay.  
+
+[[Return to other matters|PostStart]]  
+<%
+  }
+%>

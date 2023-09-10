@@ -1,0 +1,46 @@
+:: Debug[script]
+(() => {
+  window.enableDebug = function(){
+    console.log('Debug not allowed');
+  };
+  if(!window.location.search.includes('debug')) {
+    return;
+  }
+  const GUI = lil.GUI;
+
+  
+
+  // Recursively handle everything in a list
+  function addObjAsFolderToGUI(folder, obj, listen = false) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const element = obj[key];
+        if (typeof element === 'object') {
+          const newFolder = folder.addFolder(key);
+          addObjAsFolderToGUI(newFolder, element, listen);
+        } else {
+          const item = folder.add(obj, key);
+          if(listen);
+          item.listen();
+        }
+      }
+    }
+  }
+  const ps = (a) => JSON.parse(JSON.stringify(a));
+  window.enableDebug = function(){
+    const gui = new GUI();
+    const story = gui.addFolder('Story');
+    // addObjAsFolderToGUI(story, window.story);
+    // const passage = gui.addFolder('Passage');
+    // addObjAsFolderToGUI(passage, window.passage);
+    const base = gui.addFolder('Story State');
+    const topLevel = {
+      reload: () => {
+        window.story.show(window.passage.id, true);
+      }
+    };
+    base.add(topLevel, 'reload'); 
+    console.log(JSON.stringify(window.story.state));
+    addObjAsFolderToGUI(base, window.story.state, true);
+  };
+})();

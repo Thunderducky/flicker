@@ -1,0 +1,59 @@
+:: Transitions[script]
+// Used to help avoid it be so jarring
+$(document).on('sm.passage.hidden', function(event, passage) {
+  $("tw-passage").stop();
+  $("tw-passage").hide(0)
+});
+
+$(document).on('sm.passage.showing', function(event, {passage}) {
+  if(passage.tags.includes("nofade")){
+    return;
+  }
+  $("tw-passage").fadeIn(1000);
+});
+
+$(document).on('sm.passage.shown', function(event, passage) {
+  const autoclick = $("tw-passage .autoclick");
+  if(autoclick.length > 0){
+    const after = autoclick.attr("after");
+    console.log(after);
+    if(after){
+      setTimeout(function(){
+        autoclick.find("a").click();
+      }, +after);
+    } else {
+      console.log("Autoclick must have a time set");
+    }
+  }
+});
+
+$(document).on("mouseover", '.has-tooltip', function() {
+  const target = $(this).attr('target');
+  const value = window.story.passage(target).render();
+  const tooltip = $("<div>").html(value).addClass("tooltip");
+  $("tw-passage").append(tooltip);
+});
+$(document).on("mouseout", '.has-tooltip', function() {
+  $(".tooltip").remove();
+});
+
+// Setup the world
+const s = window.story.state;
+s.campground = {
+  tentRepaired: false,
+  fireStoked: false,
+  wardsRepaired: false,
+  suppliesRestored: false
+}
+s.tent = {
+  hasLantern: true
+}
+s.character = {
+  hasFuel: false,
+  hasLantern: false
+}
+s.glade = {
+  hasFuel: true
+}
+
+window.enableDebug();

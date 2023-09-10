@@ -1,0 +1,22 @@
+:: TooltipScript[script]
+$(document).on("mouseover", '.has-tooltip', function() {
+  console.log("mouseover")
+  const target = $(this).attr('target');
+  const value = window.story.passage(target).render();
+  const tooltip = $("<div>").html(value).addClass("tooltip");
+  $("tw-passage").append(tooltip);
+});
+$(document).on("mouseout", '.has-tooltip', function() {
+  console.log("mouseout");
+  $(".tooltip").remove();
+});
+
+:: Tooltip
+[[Back|Start]]
+The <span class="has-tooltip" style="color:#884444" target="Tooltip-Actual">fire</span> looks <span class="has-tooltip" style="color:#FFFFCC" target="Tooltip-Actual2">hot</span>
+
+:: Tooltip-Actual[tooltip]
+Not even kidding
+
+:: Tooltip-Actual2[tooltip]
+You know... cause it's fire

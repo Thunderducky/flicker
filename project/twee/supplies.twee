@@ -1,0 +1,12 @@
+
+:: Supplies
+<%
+  const supplies = window.story.state.campground.suppliesRestored;
+  if(!supplies){
+%>
+  Your supplies are gone. 
+  [[You can't stay here|PostStart]]
+<%} else {%>
+  Your supplies are restored.  
+  [[Return to other matters|PostStart]]
+<%}%>

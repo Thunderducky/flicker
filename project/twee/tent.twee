@@ -1,0 +1,35 @@
+// TODO: Add more steps to picking up the lantern
+:: Tent
+<%
+  const { tentRepaired } = s.campground;
+  const lanternHere = s.tent.hasLantern;
+  
+  if(tentRepaired){
+%>
+Your tent is repaired.  It's not much, but it's better than nothing.
+[[Return to other matters|PostStart]]
+<%
+  }
+  else {
+%>
+Your tent is ripped and torn.  It's not going to be much use to you anymore.
+<%
+    if(lanternHere){
+      %>
+      There is a lantern here.
+      [[Take the lantern|TakeLantern]]
+      <%
+    } else {
+    %>
+
+    [[You can't stay here|PostStart]]
+    <%}
+} %>
+
+:: TakeLantern
+You take the lantern.  It's not much, but it's better than nothing.
+<%
+  s.tent.hasLantern = false;
+  s.character.hasLantern = true;
+%>
+[[Return to other matters|PostStart]]

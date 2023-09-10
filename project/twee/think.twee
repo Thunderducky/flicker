@@ -1,0 +1,26 @@
+:: Think
+You close your eyes and think.
+<%
+const {tentRepaired, fireStoked, wardsRepaired} = s.campground;
+if(!tentRepaired){
+  %>* You need to repair your tent.<%
+} else {
+  %>* You have already repaired your tent<%
+}
+%>
+<%
+if(!fireStoked){
+  %>* You need to find more fuel for the fire<%
+} else {
+  %>* You've already refueled the fire<%
+}
+%>
+<%
+if(!wardsRepaired){
+  %>* You need to repair your wards<%
+} else {
+  %>* You've already repaired your wards<%
+}
+%>
+
+[[Open your eyes|PostStart]]

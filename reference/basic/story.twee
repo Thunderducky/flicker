@@ -1,0 +1,22 @@
+:: StoryTitle
+Tweego Basic Setup
+
+:: UserScript[script]
+// Used to help avoid it be so jarring
+$(document).on('sm.passage.hidden', function(event, passage) {
+  $("tw-passage").stop();
+  $("tw-passage").hide(0)
+});
+$(document).on('sm.passage.showing', function(event, passage) {
+  $("tw-passage").fadeIn(1000);
+});
+
+:: Start
+* Hello World 1 [[Next]]
+* External [[External]]
+* Typewriter [[Typewriter]]
+* Tooltip [[Tooltip]]
+
+:: Next
+Hello World 2 [[External]]
+[[Back|Start]]

@@ -1,6 +1,7 @@
 :: External
+[[Back|Start]]
 External World
-<span id="delayed-link" style="display:none;">[[Final]]</span>
+<span id="delayed-link" style="display:none;">[[Typewriter]]</span>
 <%
   _.delay(function() {
     $('#delayed-link').fadeIn(1000);

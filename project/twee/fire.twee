@@ -1,0 +1,32 @@
+:: Fire
+The fire is warm and inviting, <%
+  const {character, campground} = window.story.state;
+  if(!campground.fireStoked){
+    %>
+    but there is not much fuel left. You'll need more to survive.
+    <%
+      if(character.hasFuel){
+    %>
+      [[Add fuel to the fire|FireFuelAdded]]
+    <%
+      } else {
+    %>
+      [[You can't stay here|PostStart]]
+    <%
+      }
+  } else {
+    %>there should be enough fuel to make it til morning.
+    
+    [[Return to other matters|PostStart]]
+    <%
+  }
+%>
+
+:: FireFuelAdded
+You add the kindling the fire, it should be enough to last the night
+<%
+  const {character, campground} = window.story.state;
+  character.hasFuel = false;
+  campground.fireStoked = true;
+%>
+[[Good|Fire]]

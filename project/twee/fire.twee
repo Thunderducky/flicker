@@ -15,7 +15,7 @@ The fire is warm and inviting, <%
     <%
       }
   } else {
-    %>there should be enough fuel to make it til morning.
+    %>there should be enough fuel to make it until morning.
     
     [[Return to other matters|PostStart]]
     <%

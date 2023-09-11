@@ -19,8 +19,8 @@
 </head>
 	<body>
 		<tw-story tags></tw-story>
-		<!-- UUID://0BC51351-0A5C-482E-B600-255F192DBE3E// --><tw-storydata name="Flicker" startnode="8" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="0BC51351-0A5C-482E-B600-255F192DBE3E" zoom="1" format="Snowman" format-version="2.0.2" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">*{background-color:#121212;color:#cecece}a{color:#cecece}a:visited{color:#cecece}.hidden{display:none}body{height:100vh;width:100vw}tw-story{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:100%;max-width:600px;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "build.js" */
-"use strict";!function(n){n.fn.changeElementType=function(e){var t={};n.each(this[0].attributes,(function(n,e){t[e.nodeName]=e.nodeValue})),this.replaceWith((function(){return n("<"+e+"/>",t).append(n(this).contents())}))}}(jQuery),window.disableLinks=function(){$("a").changeElementType("nota")},window.enableLinks=function(){$("nota").changeElementType("a")};
+		<!-- UUID://0BC51351-0A5C-482E-B600-255F192DBE3E// --><tw-storydata name="Flicker" startnode="14" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="0BC51351-0A5C-482E-B600-255F192DBE3E" zoom="1" format="Snowman" format-version="2.0.2" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">*{background-color:#121212;color:#cecece}a{color:#cecece}a:visited{color:#cecece}.hidden{display:none}body{height:100vh;width:100vw}tw-story{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:100%;max-width:600px;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "build.js" */
+"use strict";console.log(jQuery),function(n){n.fn.changeElementType=function(e){this.replaceWith((function(){var t={};return n.each(this.attributes,(function(n,e){t[e.nodeName]=e.nodeValue})),n("<"+e+"/>",t).append(n(this).contents())}))}}(jQuery),window.disableLinks=function(){$("a").changeElementType("nota")},window.enableLinks=function(){$("nota").changeElementType("a")};
 /* twine-user-script #2: "Debug" */
 (() => {
   window.enableDebug = function(){
@@ -49,7 +49,6 @@
       }
     }
   }
-  const ps = (a) => JSON.parse(JSON.stringify(a));
   window.enableDebug = function(){
     const gui = new GUI();
     const title = gui.addFolder('Title');
@@ -59,11 +58,15 @@
     const base = gui.addFolder('Story State');
     const topLevel = {
       passageName: "",
+      go: () => {
+        window.story.show(topLevel.passageName);
+      },
       reload: () => {
         window.story.show(window.passage.id, true);
       }
     };
     const passageName = title.add(topLevel, 'passageName');
+    title.add(topLevel, 'go');
     $(document).on('sm.passage.showing', function(event, {passage}) {
       passageName.setValue(passage.name);
     });
@@ -124,11 +127,16 @@ s.tent = {
   hasLantern: true
 }
 s.character = {
+  hasWards: false,
+  hasWardComponents: false,
   hasFuel: false,
   hasLantern: false
 }
 s.glade = {
   hasFuel: true
+}
+s.cave = {
+  hasWardComponents: true
 }
 
 window.enableDebug();</script><tw-passagedata pid="1" name="Campground" tags="" position="100,100" size="100,100">Your campground is still in disarray, but you have a few moments to [[think|Think]]. 
@@ -152,7 +160,7 @@ The fire is warm and inviting.
     &lt;%
   } else {
     %&gt;
-      &lt;%=window.story.render(&quot;FirePathRevealed&quot;)&gt;
+      &lt;%=window.story.render(&quot;FirePathRevealed&quot;)%&gt;
       There should be enough fuel to make it until morning.
       [[Return to other matters|Campground]]
     &lt;%
@@ -163,31 +171,64 @@ The fire is warm and inviting.
   character.hasFuel = false;
   campground.fireStoked = true;
 %&gt;
-[[Good|Fire]]</tw-passagedata><tw-passagedata pid="4" name="FirePathRevealed" tags="" position="475,100" size="100,100">The fire illuminates a path to the north, tracks in the snow lead that way.</tw-passagedata><tw-passagedata pid="5" name="Glade" tags="" position="600,100" size="100,100">&lt;%
+[[Good|Fire]]</tw-passagedata><tw-passagedata pid="4" name="FirePathRevealed" tags="" position="475,100" size="100,100">The fire illuminates tracks moving to the north
+
+[[Follow the tracks|Path North]]</tw-passagedata><tw-passagedata pid="5" name="Path North" tags="" position="600,100" size="100,100">The tracks lead to the mouth of a cave
+
+[[Enter the cave|Cave]]</tw-passagedata><tw-passagedata pid="6" name="Cave" tags="" position="725,100" size="100,100">The cave is dark and damp. The tracks lead deeper into the cave.
+
+[[Follow the tracks|Cave2]]</tw-passagedata><tw-passagedata pid="7" name="Cave2" tags="" position="850,100" size="100,100">&lt;%
+  const {cave, character } = window.story.state;
+  const {hasWardComponents} = cave;
+%&gt;
+&lt;% if(hasWardComponents) {%&gt;
+The remains of small animals litter the floor. They look to have been here for a while.
+This will be enough to rebuild your wards at the campsite
+&lt;% }%&gt;
+[[Return to the campsite|Campground]]</tw-passagedata><tw-passagedata pid="8" name="CavePickupBones" tags="" position="975,100" size="100,100">&lt;%
+  const {cave, character } = window.story.state;
+  character.hasWardComponents = true;
+  cave.hasWardComponents = false;
+%&gt;
+You pick up the bones and return to the campsite
+[[Return to the campsite|Campground]]</tw-passagedata><tw-passagedata pid="9" name="Glade" tags="" position="1100,100" size="100,100">&lt;%
   const {glade, character} = window.story.state;
 %&gt;
 You venture into the glade, lantern in hand. The light from the lantern is weak, but it&#39;s enough to keep the darkness at bay.
 
 &lt;%= glade.hasFuel ? window.story.render(&quot;GladeHasWood&quot;) : &quot;&quot;%&gt;
 
-[[Return to the campground|Campground]].</tw-passagedata><tw-passagedata pid="6" name="GladeHasWood" tags="" position="725,100" size="100,100">There&#39;s is an abundance of wood here, it would be good supply of fuel for the fire.
-[[Gather wood|GladeGatherWood]]</tw-passagedata><tw-passagedata pid="7" name="GladeGatherWood" tags="" position="850,100" size="100,100">You are able to gather sticks and branches that have fallen from the trees. You can also gather some kindling from the ground.
+&lt;%= window.story.render(&quot;GladeWard&quot;) %&gt;
+[[Return to the campground|Campground]].</tw-passagedata><tw-passagedata pid="10" name="GladeHasWood" tags="" position="1225,100" size="100,100">There&#39;s is an abundance of wood here, it would be good supply of fuel for the fire.
+[[Gather wood|GladeGatherWood]]</tw-passagedata><tw-passagedata pid="11" name="GladeGatherWood" tags="" position="100,225" size="100,100">You are able to gather sticks and branches that have fallen from the trees. You can also gather some kindling from the ground.
 
 &lt;%
   const {glade, character} = window.story.state;
   glade.hasFuel = false;
   character.hasFuel = true;
 %&gt;
-[[Return to the campground|Campground]]</tw-passagedata><tw-passagedata pid="8" name="Start" tags="nofade" position="975,100" size="100,100">&lt;%
+[[Return to the campground|Campground]]</tw-passagedata><tw-passagedata pid="12" name="GladeWard" tags="" position="225,225" size="100,100">&lt;%
+  const {glade, character} = window.story.state;
+%&gt;
+&lt;%
+  if(character.hasWards) {
+    %&gt;
+      Your wards are strong enough to allow you to venture [[further into the glade|Cottage]]. 
+    &lt;% 
+  } else { %&gt;
+    Going further into the glade would be dangerous without some kind of protection.
+&lt;%}%&gt;</tw-passagedata><tw-passagedata pid="13" name="Cottage" tags="" position="350,225" size="100,100">You arrive at a cottage. A voice from inside calls out to you. &quot;Sorry, this section isn&#39;t done yet&quot;
+[[Return to the glade|Glade]]</tw-passagedata><tw-passagedata pid="14" name="Start" tags="nofade" position="475,225" size="100,100">&lt;%
+  // Todo: add an easy formatting helper
   const FAST_INTRO = false;
 %&gt;
-&lt;span.sequence order=&quot;1&quot;&gt;You stand in front of a [[fire|Fire]].&lt;/span&gt;
-&lt;span.sequence order=&quot;2&quot;&gt;It&#39;s light flickers and dances across the edges of the glade.&lt;/span&gt;
+&lt;span.sequence order=&quot;1&quot; style=&quot;padding-left: 5px&quot;&gt;You stand in front of a [[fire|Fire]].&lt;/span&gt;
+&lt;span.sequence order=&quot;2&quot;&gt;Its light flickers and dances across the edges of the glade.&lt;/span&gt;
 &lt;span.sequence order=&quot;3&quot;&gt;You can hear the crackling of the wood as it burns.&lt;/span&gt;
 &lt;span.sequence order=&quot;4&quot;&gt;You can feel the warmth of the fire on your face. &lt;/span&gt; 
 &lt;span.sequence order=&quot;5&quot;&gt;You can sense the eyes watching you from the dark.&lt;/span&gt;
 
-&lt;span.sequence order=&quot;6&quot;&gt;Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.&lt;/span&gt;
+&lt;span.sequence order=&quot;6&quot; style=&quot;padding-left: 5px&quot;&gt;Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.&lt;/span&gt;
 
 &lt;span.sequence order=&quot;7&quot;&gt;You can&#39;t stay here, [[not like this|Think]].&lt;/span&gt;
 
@@ -209,7 +250,7 @@ if(!FAST_INTRO){
 } else {
   $(&quot;tw-passage&quot;).fadeIn(1000);
 }
-%&gt;</tw-passagedata><tw-passagedata pid="9" name="Supplies" tags="" position="1100,100" size="100,100">&lt;%
+%&gt;</tw-passagedata><tw-passagedata pid="15" name="Supplies" tags="" position="600,225" size="100,100">&lt;%
   const supplies = window.story.state.campground.suppliesRestored;
   if(!supplies){
 %&gt;
@@ -218,7 +259,7 @@ if(!FAST_INTRO){
 &lt;%} else {%&gt;
   Your supplies are restored.  
   [[Return to other matters|Campground]]
-&lt;%}%&gt;</tw-passagedata><tw-passagedata pid="10" name="Tent" tags="" position="1225,100" size="100,100">&lt;%
+&lt;%}%&gt;</tw-passagedata><tw-passagedata pid="16" name="Tent" tags="" position="725,225" size="100,100">&lt;%
   const { tentRepaired } = s.campground;
   const lanternHere = s.tent.hasLantern;
   
@@ -242,13 +283,13 @@ Your tent is ripped and torn.  It&#39;s not going to be much use to you anymore.
 
     [[You can&#39;t stay here|Campground]]
     &lt;%}
-} %&gt;</tw-passagedata><tw-passagedata pid="11" name="TakeLantern" tags="" position="100,225" size="100,100">You take the lantern.  It&#39;s not much, but it&#39;s better than nothing.
+} %&gt;</tw-passagedata><tw-passagedata pid="17" name="TakeLantern" tags="" position="850,225" size="100,100">You take the lantern.  It&#39;s not much, but it&#39;s better than nothing.
 &lt;%
   // Perform taking lantern results
   s.tent.hasLantern = false;
   s.character.hasLantern = true;
 %&gt;
-[[Return to other matters|Campground]]</tw-passagedata><tw-passagedata pid="12" name="Think" tags="" position="225,225" size="100,100">You close your eyes and think.
+[[Return to other matters|Campground]]</tw-passagedata><tw-passagedata pid="18" name="Think" tags="" position="975,225" size="100,100">You close your eyes and think.
 &lt;%
 const {tentRepaired, fireStoked, wardsRepaired} = s.campground;
 
@@ -261,12 +302,19 @@ const wardsStatus = !wardsRepaired ? &quot;You need to repair your wards.&quot; 
 * &lt;%=fireStatus%&gt;
 * &lt;%=wardsStatus%&gt;
 
-[[Open your eyes|Campground]]</tw-passagedata><tw-passagedata pid="13" name="Wards" tags="" position="350,225" size="100,100">&lt;%
+[[Open your eyes|Campground]]</tw-passagedata><tw-passagedata pid="19" name="Wards" tags="" position="1100,225" size="100,100">&lt;%
   const {wardsRepaired} = s.campground;
+  const {hasWardComponents} = s.character;
   if(!wardsRepaired){
 %&gt;
   Your wards are broken.  You can feel the eyes watching you from the dark.  
-
+  &lt;%
+    if(hasWardComponents){
+      %&gt;
+      [[Repair the wards|WardsRepair]]
+      &lt;%
+    }
+  %&gt;
 [[You can&#39;t stay here|Campground]]
 &lt;%
   } else {
@@ -276,7 +324,14 @@ Your wards are repaired. The eyes are still there, but they&#39;re held at bay.
 [[Return to other matters|Campground]]  
 &lt;%
   }
-%&gt;</tw-passagedata></tw-storydata>
+%&gt;</tw-passagedata><tw-passagedata pid="20" name="WardsRepair" tags="" position="1225,225" size="100,100">&lt;%
+  const { character, campground } = s;
+  character.hasWardComponents = false;
+  character.hasWards = true;
+  campground.wardsRepaired = true;
+%&gt;
+By firelight, you repair the wards. The eyes in the dark are held at bay.  
+[[Return to other matters|Campground]]</tw-passagedata></tw-storydata>
 		<script>
 		(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";window.either=function(){for(var n=[],t=0;t<arguments.length;t++)if(arguments[t]instanceof Array)for(var r=0;r<arguments[t].length;r++)n.push(arguments[t][r]);else n.push(arguments[t]);return n[_.random(n.length-1)]},window.hasVisited=function(){var n=null;if(1==arguments.length)return null!=(n=window.story.passage(arguments[0]))&&window.story.history.includes(n.id);for(var t=0;t<arguments.length;t++)if(null==(n=window.story.passage(arguments[t]))||0==window.story.history.includes(n.id))return!1;return!0},window.visited=function(){for(var n=[],t=[],r=0;r<arguments.length;r++){var e=window.story.passage(arguments[r]);null!=e&&(t=window.story.history.filter(function(n){return n==e.id})),n.push(t.length)}return Math.min.apply(Math,n)},window.renderToSelector=function(n,t){var r=window.story.passage(t);null!=r&&$(n).html(r.render())},window.getStyles=function(){return $.when.apply($,$.map(arguments,function(n){return $.get(n,function(n){$("<style>"+n+"</style>").appendTo("head")})}))};

@@ -6,6 +6,7 @@ You venture into the glade, lantern in hand. The light from the lantern is weak,
 
 <%= glade.hasFuel ? window.story.render("GladeHasWood") : ""%>
 
+<%= window.story.render("GladeWard") %>
 [[Return to the campground|Campground]].
 
 :: GladeHasWood
@@ -22,3 +23,20 @@ You are able to gather sticks and branches that have fallen from the trees. You 
   character.hasFuel = true;
 %>
 [[Return to the campground|Campground]]
+
+:: GladeWard
+<%
+  const {glade, character} = window.story.state;
+%>
+<%
+  if(character.hasWards) {
+    %>
+      Your wards are strong enough to allow you to venture [[further into the glade|Cottage]]. 
+    <% 
+  } else { %>
+    Going further into the glade would be dangerous without some kind of protection.
+<%}%>
+
+:: Cottage
+You arrive at a cottage. A voice from inside calls out to you. "Sorry, this section isn't done yet"
+[[Return to the glade|Glade]]

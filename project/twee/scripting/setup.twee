@@ -49,11 +49,16 @@ s.tent = {
   hasLantern: true
 }
 s.character = {
+  hasWards: false,
+  hasWardComponents: false,
   hasFuel: false,
   hasLantern: false
 }
 s.glade = {
   hasFuel: true
+}
+s.cave = {
+  hasWardComponents: true
 }
 
 window.enableDebug();

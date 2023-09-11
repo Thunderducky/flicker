@@ -10,7 +10,8 @@
     "watch:twee": "tweego -o dist/index.html -m src/modules/ --head=\"src/head-content.html\" project -w",
     "testmode:twee": "tweego -o dist/index.html -m src/modules/ --head=\"src/head-content.html\" project -t",
     "build": "npm run compile:src && npm run compile:twee",
-    "build:test": "npm run compile:src && npm run testmode:twee"
+    "build:test": "npm run compile:src && npm run testmode:twee",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [
     "twine",
@@ -50,6 +51,7 @@
     "Opera >= 12"
   ],
   "dependencies": {
+    "gh-pages": "^6.0.0",
     "lil-gui": "^0.18.2"
   }
 }

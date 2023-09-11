@@ -13,7 +13,7 @@ The fire is warm and inviting.
     <%
   } else {
     %>
-      <%=window.story.render("FirePathRevealed")>
+      <%=window.story.render("FirePathRevealed")%>
       There should be enough fuel to make it until morning.
       [[Return to other matters|Campground]]
     <%
@@ -30,5 +30,37 @@ You add some wood to the fire, and place the remaining pieces nearby, it should 
 [[Good|Fire]]
 
 :: FirePathRevealed
-The fire illuminates a path to the north, tracks in the snow lead that way.
+The fire illuminates tracks moving to the north
 
+[[Follow the tracks|Path North]]
+
+
+:: Path North
+The tracks lead to the mouth of a cave
+
+[[Enter the cave|Cave]]
+
+:: Cave
+The cave is dark and damp. The tracks lead deeper into the cave.
+
+[[Follow the tracks|Cave2]]
+
+:: Cave2
+<%
+  const {cave, character } = window.story.state;
+  const {hasWardComponents} = cave;
+%>
+<% if(hasWardComponents) {%>
+The remains of small animals litter the floor. They look to have been here for a while.
+This will be enough to rebuild your wards at the campsite
+<% }%>
+[[Return to the campsite|Campground]]
+
+:: CavePickupBones
+<%
+  const {cave, character } = window.story.state;
+  character.hasWardComponents = true;
+  cave.hasWardComponents = false;
+%>
+You pick up the bones and return to the campsite
+[[Return to the campsite|Campground]]

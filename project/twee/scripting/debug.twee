@@ -26,7 +26,6 @@
       }
     }
   }
-  const ps = (a) => JSON.parse(JSON.stringify(a));
   window.enableDebug = function(){
     const gui = new GUI();
     const title = gui.addFolder('Title');
@@ -36,11 +35,15 @@
     const base = gui.addFolder('Story State');
     const topLevel = {
       passageName: "",
+      go: () => {
+        window.story.show(topLevel.passageName);
+      },
       reload: () => {
         window.story.show(window.passage.id, true);
       }
     };
     const passageName = title.add(topLevel, 'passageName');
+    title.add(topLevel, 'go');
     $(document).on('sm.passage.showing', function(event, {passage}) {
       passageName.setValue(passage.name);
     });

@@ -3,15 +3,16 @@ Flicker
 
 :: Start[nofade]
 <%
+  // Todo: add an easy formatting helper
   const FAST_INTRO = false;
 %>
-<span.sequence order="1">You stand in front of a [[fire|Fire]].</span>
-<span.sequence order="2">It's light flickers and dances across the edges of the glade.</span>
+<span.sequence order="1" style="padding-left: 5px">You stand in front of a [[fire|Fire]].</span>
+<span.sequence order="2">Its light flickers and dances across the edges of the glade.</span>
 <span.sequence order="3">You can hear the crackling of the wood as it burns.</span>
 <span.sequence order="4">You can feel the warmth of the fire on your face. </span> 
 <span.sequence order="5">You can sense the eyes watching you from the dark.</span>
 
-<span.sequence order="6">Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.</span>
+<span.sequence order="6" style="padding-left: 5px">Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.</span>
 
 <span.sequence order="7">You can't stay here, [[not like this|Think]].</span>
 

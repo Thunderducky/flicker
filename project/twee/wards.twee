@@ -1,10 +1,17 @@
 :: Wards
 <%
   const {wardsRepaired} = s.campground;
+  const {hasWardComponents} = s.character;
   if(!wardsRepaired){
 %>
   Your wards are broken.  You can feel the eyes watching you from the dark.  
-
+  <%
+    if(hasWardComponents){
+      %>
+      [[Repair the wards|WardsRepair]]
+      <%
+    }
+  %>
 [[You can't stay here|Campground]]
 <%
   } else {
@@ -15,3 +22,13 @@ Your wards are repaired. The eyes are still there, but they're held at bay.
 <%
   }
 %>
+
+:: WardsRepair
+<%
+  const { character, campground } = s;
+  character.hasWardComponents = false;
+  character.hasWards = true;
+  campground.wardsRepaired = true;
+%>
+By firelight, you repair the wards. The eyes in the dark are held at bay.  
+[[Return to other matters|Campground]]

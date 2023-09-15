@@ -38,7 +38,7 @@
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const element = obj[key];
-        if (typeof element === 'object') {
+        if (typeof element === 'object' && typeof element !== 'function') {
           const newFolder = folder.addFolder(key);
           addObjAsFolderToGUI(newFolder, element, listen);
         } else {
@@ -61,12 +61,30 @@
       go: () => {
         window.story.show(topLevel.passageName);
       },
+      save: () => {
+        localStorage.setItem('retain', 'true');
+        localStorage.setItem('story', JSON.stringify(window.story.state));
+      },
+      clear: () => {
+        localStorage.removeItem('retain');
+        localStorage.removeItem('story');
+      },
       reload: () => {
         window.story.show(window.passage.id, true);
       }
     };
+    const passages = window.story.passages;
+    const jumpTargets = window.story.passages.filter(p => !!p).map(p => p.name).reduce((acc, cur) => {
+        acc[cur] = () => window.story.show(cur);
+        return acc;
+      }, {});
+    const jumpTo = base.addFolder('Jump To');
+    addObjAsFolderToGUI(jumpTo, jumpTargets);
+
     const passageName = title.add(topLevel, 'passageName');
     title.add(topLevel, 'go');
+    title.add(topLevel, 'save');
+    title.add(topLevel, 'clear');
     $(document).on('sm.passage.showing', function(event, {passage}) {
       passageName.setValue(passage.name);
     });
@@ -117,26 +135,35 @@ $(document).on("mouseout", '.has-tooltip', function() {
 
 // Setup the world
 const s = window.story.state;
-s.campground = {
-  tentRepaired: false,
-  fireStoked: false,
-  wardsRepaired: false,
-  suppliesRestored: false
-}
-s.tent = {
-  hasLantern: true
-}
-s.character = {
-  hasWards: false,
-  hasWardComponents: false,
-  hasFuel: false,
-  hasLantern: false
-}
-s.glade = {
-  hasFuel: true
-}
-s.cave = {
-  hasWardComponents: true
+
+if(localStorage.getItem("retain")){
+  console.log("loadingRetainedGame");
+  window.story.state = {
+    ...window.story.state,
+    ...JSON.parse(localStorage.getItem("story"))
+  };
+} else {
+  s.campground = {
+    tentRepaired: false,
+    fireStoked: false,
+    wardsRepaired: false,
+    suppliesRestored: false
+  }
+  s.tent = {
+    hasLantern: true
+  }
+  s.character = {
+    hasWards: false,
+    hasWardComponents: false,
+    hasFuel: false,
+    hasLantern: false
+  }
+  s.glade = {
+    hasFuel: true
+  }
+  s.cave = {
+    hasWardComponents: true
+  }
 }
 
 window.enableDebug();</script><tw-passagedata pid="1" name="Campground" tags="" position="100,100" size="100,100">Your campground is still in disarray, but you have a few moments to [[think|Think]]. 
@@ -184,6 +211,7 @@ The fire is warm and inviting.
 &lt;% if(hasWardComponents) {%&gt;
 The remains of small animals litter the floor. They look to have been here for a while.
 This will be enough to rebuild your wards at the campsite
+[[Pick up the bones|CavePickupBones]]
 &lt;% }%&gt;
 [[Return to the campsite|Campground]]</tw-passagedata><tw-passagedata pid="8" name="CavePickupBones" tags="" position="975,100" size="100,100">&lt;%
   const {cave, character } = window.story.state;
@@ -233,23 +261,23 @@ You venture into the glade, lantern in hand. The light from the lantern is weak,
 &lt;span.sequence order=&quot;7&quot;&gt;You can&#39;t stay here, [[not like this|Think]].&lt;/span&gt;
 
 &lt;%
-const wait = (ms) =&gt; new Promise((resolve) =&gt; setTimeout(resolve, ms));
-if(!FAST_INTRO){
-  $(async () =&gt; {
-    $(&quot;.sequence&quot;).css(&quot;opacity&quot;, 0);
-    // Disable links
-    $(&quot;.passage a&quot;).changeElementType(&quot;nota&quot;);
-    $(&quot;tw-passage&quot;).show();
-    for(let i = 1; i &lt;= 7; i++){
-      $(`.sequence[order=&#39;${i}&#39;]`).animate({opacity: 1}, 1000)
-      await wait(2500);
-    }
-    // Enable all links
-    $(&quot;.passage nota&quot;).changeElementType(&quot;a&quot;);
-  });
-} else {
-  $(&quot;tw-passage&quot;).fadeIn(1000);
-}
+  const wait = (ms) =&gt; new Promise((resolve) =&gt; setTimeout(resolve, ms));
+  if(!FAST_INTRO){
+    $(async () =&gt; {
+      $(&quot;.sequence&quot;).css(&quot;opacity&quot;, 0);
+      // Disable links
+      $(&quot;.passage a&quot;).changeElementType(&quot;nota&quot;);
+      $(&quot;tw-passage&quot;).show();
+      for(let i = 1; i &lt;= 7; i++){
+        $(`.sequence[order=&#39;${i}&#39;]`).animate({opacity: 1}, 1000)
+        await wait(2500);
+      }
+      // Enable all links
+      $(&quot;.passage nota&quot;).changeElementType(&quot;a&quot;);
+    });
+  } else {
+    $(&quot;tw-passage&quot;).fadeIn(1000);
+  }
 %&gt;</tw-passagedata><tw-passagedata pid="15" name="Supplies" tags="" position="600,225" size="100,100">&lt;%
   const supplies = window.story.state.campground.suppliesRestored;
   if(!supplies){

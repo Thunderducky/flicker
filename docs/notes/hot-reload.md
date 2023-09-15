@@ -1,0 +1,1 @@
+Add an option to the debug menu to persist state across hot reloads.

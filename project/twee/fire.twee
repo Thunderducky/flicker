@@ -53,6 +53,7 @@ The cave is dark and damp. The tracks lead deeper into the cave.
 <% if(hasWardComponents) {%>
 The remains of small animals litter the floor. They look to have been here for a while.
 This will be enough to rebuild your wards at the campsite
+[[Pick up the bones|CavePickupBones]]
 <% }%>
 [[Return to the campsite|Campground]]
 

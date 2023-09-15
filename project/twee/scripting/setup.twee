@@ -39,26 +39,35 @@ $(document).on("mouseout", '.has-tooltip', function() {
 
 // Setup the world
 const s = window.story.state;
-s.campground = {
-  tentRepaired: false,
-  fireStoked: false,
-  wardsRepaired: false,
-  suppliesRestored: false
-}
-s.tent = {
-  hasLantern: true
-}
-s.character = {
-  hasWards: false,
-  hasWardComponents: false,
-  hasFuel: false,
-  hasLantern: false
-}
-s.glade = {
-  hasFuel: true
-}
-s.cave = {
-  hasWardComponents: true
+
+if(localStorage.getItem("retain")){
+  console.log("loadingRetainedGame");
+  window.story.state = {
+    ...window.story.state,
+    ...JSON.parse(localStorage.getItem("story"))
+  };
+} else {
+  s.campground = {
+    tentRepaired: false,
+    fireStoked: false,
+    wardsRepaired: false,
+    suppliesRestored: false
+  }
+  s.tent = {
+    hasLantern: true
+  }
+  s.character = {
+    hasWards: false,
+    hasWardComponents: false,
+    hasFuel: false,
+    hasLantern: false
+  }
+  s.glade = {
+    hasFuel: true
+  }
+  s.cave = {
+    hasWardComponents: true
+  }
 }
 
 window.enableDebug();

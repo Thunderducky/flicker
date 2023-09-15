@@ -15,7 +15,7 @@
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const element = obj[key];
-        if (typeof element === 'object') {
+        if (typeof element === 'object' && typeof element !== 'function') {
           const newFolder = folder.addFolder(key);
           addObjAsFolderToGUI(newFolder, element, listen);
         } else {
@@ -38,12 +38,30 @@
       go: () => {
         window.story.show(topLevel.passageName);
       },
+      save: () => {
+        localStorage.setItem('retain', 'true');
+        localStorage.setItem('story', JSON.stringify(window.story.state));
+      },
+      clear: () => {
+        localStorage.removeItem('retain');
+        localStorage.removeItem('story');
+      },
       reload: () => {
         window.story.show(window.passage.id, true);
       }
     };
+    const passages = window.story.passages;
+    const jumpTargets = window.story.passages.filter(p => !!p).map(p => p.name).reduce((acc, cur) => {
+        acc[cur] = () => window.story.show(cur);
+        return acc;
+      }, {});
+    const jumpTo = base.addFolder('Jump To');
+    addObjAsFolderToGUI(jumpTo, jumpTargets);
+
     const passageName = title.add(topLevel, 'passageName');
     title.add(topLevel, 'go');
+    title.add(topLevel, 'save');
+    title.add(topLevel, 'clear');
     $(document).on('sm.passage.showing', function(event, {passage}) {
       passageName.setValue(passage.name);
     });

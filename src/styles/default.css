@@ -8,8 +8,8 @@ a {
 a:visited {
   color: #cecece;
 }
-.hidden {
-  display: none;
+.orange {
+  color: #ff8c00;
 }
 body {
   height: 100vh;
@@ -23,3 +23,60 @@ tw-story {
   align-items: center;
 }
 
+.non-word {
+  transition-property: color;
+  transition-duration: 0.5s;
+}
+.non-word.hidden {
+  color: #121212 !important;
+}
+
+@keyframes fadeItColor {
+  0% { color: #000; color: #000;}
+  90% { color: #FFF; color: #FFF;}
+  100% { color: #cecece; color: #cecece;}
+}
+
+@keyframes fadeItLine {
+  0% {  text-decoration-color: #000;}
+  90%   { text-decoration-color: #FFF;}
+  100% { text-decoration-color: #cecece;}
+}
+.letter {
+  color: #121212;
+}
+.letter.reveal {
+  color: #cecece;
+  animation: fadeItColor 1s ease-in-out;
+}
+.word {    
+  animation: fadeItColor 1s ease-in-out; 
+}
+
+.reveal {    
+  animation: fadeItColor 1s ease-in-out; 
+}
+
+.selectable {
+  text-decoration-color:#cecece;
+  animation: fadeItLine 1s ease-in-out;
+}
+.letter {
+  color: #121212;
+}
+.hidden {
+  color: #121212 !important;
+}
+
+.orange {
+  color: #dc7901;
+}
+.orange .letter.reveal {
+  color: #dc7901;
+  animation: fadeItOrange 1s ease-in-out;
+}
+@keyframes fadeItOrange {
+  0% { color: #000; }
+  90% { color: #ff8c00; }
+  100% { color: #e1a966; }
+}

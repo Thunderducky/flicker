@@ -1,41 +1,60 @@
 :: StoryTitle
 Flicker
 
-:: Start[nofade]
+:: Start
+[[Begin|BootstrappedStart]]
 <%
-  // Todo: add an easy formatting helper
-  const FAST_INTRO = false;
+  (() => {
+    setTimeout(() => {
+      $('tw-passage').show();
+    }, 1000)
+  })();
 %>
-<span.sequence order="1" style="padding-left: 5px">You stand in front of a [[fire|Fire]].</span>
-<span.sequence order="2">Its light flickers and dances across the edges of the glade.</span>
-<span.sequence order="3">You can hear the crackling of the wood as it burns.</span>
-<span.sequence order="4">You can feel the warmth of the fire on your face. </span> 
-<span.sequence order="5">You can sense the eyes watching you from the dark.</span>
+:: BootstrappedStart [nofade]
+<p><p>
+  You stand in front of a <span class="orange">fire</span>. It's light flickers and dances across the edges of the glade.
+  You can hear the crackling of the wood as it burns. You can feel the warmth of the fire on your face.
+  You can sense the eyes watching you from the dark.
+  </p>
+  <p>
+  Your tent is ripped, your wards are broken, and your supplies are gone.
+  </p>
+  <p>
+  You can't stay here, not like this.
+  </p>
+</p>
 
-<span.sequence order="6" style="padding-left: 5px">Your [[tent|Tent]] is ripped, your [[wards|Wards]] are broken, and your [[supplies|Supplies]] are gone.</span>
 
-<span.sequence order="7">You can't stay here, [[not like this|Think]].</span>
+* [[Checkback|Checkback]]
+* [[Attend to the Fire|Fire]]
+* [[Take a closer look at the tent|Tent]]
+* [[Check your wards|Wards]]
+* [[Check your supplies|Supplies]]
+* [[Take a moment to think|Think]]
 
 <%
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  if(!FAST_INTRO){
-    $(async () => {
-      $(".sequence").css("opacity", 0);
-      // Disable links
-      $(".passage a").changeElementType("nota");
-      $("tw-passage").show();
-      for(let i = 1; i <= 7; i++){
-        $(`.sequence[order='${i}']`).animate({opacity: 1}, 1000)
-        await wait(2500);
-      }
-      // Enable all links
-      $(".passage nota").changeElementType("a");
-    });
-  } else {
-    $("tw-passage").fadeIn(1000);
+  const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
+  $(async () => {
+    console.log(visited("BootstrappedStart"));
+    if(visited("BootstrappedStart") > 1){
+      $("tw-passage").fadeIn(1000);
+      return;
+    }
+    console.log(window.passage);
+    const textRevealer = new TextRevealer(50);
+    const listElement = $('tw-passage li');
+    listElement.hide();
+    await textRevealer.revealText($("tw-passage > p"));
+    console.log("Done revealing")
+    for(let i = 0; i < listElement.length; i++){
+      const el = listElement[i];
+      $(el).fadeIn(1000);
+      await sleep(1000);
+    }
+  });
 %>
 
-
-
-
+:: Checkback
+Go back [[to the beginning|BootstrappedStart]].

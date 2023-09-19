@@ -2,30 +2,25 @@
 // Used to help avoid it be so jarring
 $(document).on('sm.passage.hidden', function(event, passage) {
   $("tw-passage").stop();
-  $("tw-passage").hide(0)
+  $("tw-passage").hide();
 });
 
-$(document).on('sm.passage.showing', function(event, {passage}) {
-  if(passage.tags.includes("nofade")){
+
+$(document).on('sm.passage.showing', function(event, passage) {
+  $("tw-passage").fadeIn(1000);
+  if(!passage || !passage.tags){
     return;
   }
-  $("tw-passage").fadeIn(1000);
+  if(passage.tags.includes("nofade")){
+    console.log("Skipping nofade");
+    return;
+  }
+
 });
 
-$(document).on('sm.passage.shown', function(event, passage) {
-  const autoclick = $("tw-passage .autoclick");
-  if(autoclick.length > 0){
-    const after = autoclick.attr("after");
-    console.log(after);
-    if(after){
-      setTimeout(function(){
-        autoclick.find("a").click();
-      }, +after);
-    } else {
-      console.log("Autoclick must have a time set");
-    }
-  }
-});
+
+// Todo: a proper scrolling engine, where we can see choices and go from there
+// We have the basic typewriter affect working pretty well, just needs more work
 
 $(document).on("mouseover", '.has-tooltip', function() {
   const target = $(this).attr('target');

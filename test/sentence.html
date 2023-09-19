@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        background-color: #121212;
+        color: #cecece;
+        font-size:24px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 150%;
+      }
+
+      .hidden {
+        color: #121212 !important;
+      }
+
+      /* Letters are hidden by default */
+      .letter {
+        color: #121212;
+      }
+
+      @keyframes fadeItColor {
+        0% { color: #000; }
+        90% { color: #FFF; }
+        100% { color: #cecece; }
+      }
+
+      .letter.reveal {
+        color: #cecece;
+        animation: fadeItColor 1s ease-in-out;
+      }
+
+      /* The orange variant of a letter */
+      .orange {
+        color: #dc7901;
+      }
+      .orange .letter.reveal {
+        color: #dc7901;
+        animation: fadeItOrange 1s ease-in-out;
+      }
+      @keyframes fadeItOrange {
+        0% { color: #000; }
+        90% { color: #ff8c00; }
+        100% { color: #e1a966; }
+      }
+    </style>
+  </head>
+  <body>
+    <p id="original">
+      You stand in front of a fire. Its light <span class="orange">flickers</span> and dances across the
+      edges of the glade.
+    </p>
+    <p id="copy">
+
+    </p>
+    <script type="text/javascript" src="./sentence.js">
+    </script>
+  </body>
+</html>
